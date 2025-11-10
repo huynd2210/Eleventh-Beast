@@ -1,0 +1,63 @@
+INITIAL GAME SETUP
+Begin the first day of the game on May 13, 1746. Place your Inquisitor
+Token at All-Hallows-The-Great (✝). Have a Beast Token and Rumor
+Tokens ready. Record all investigations in your Notebook.
+Each round begins with I. The Beast Approaches.
+I. THE BEAST APPROACHES
+1. Roll 1d8 and find that location number on the map.
+2. If the location has a Rumor Token, place the Beast Token at that
+location (if not already on the map). The BEAST has arrived!
+3. Otherwise, if the location does not have a Rumor Token, place one
+at that location.
+4. If the BEAST is on the map, roll 1d6. If the result is 5 or 6, the BEAST
+moves one location closer to you.
+5. If the BEAST is in the same location as you, a surprise HUNT is
+triggered! See Hunting the Beast (p. 12).
+Locations may contain more than one rumor token, but each Investigate
+action only removes one (1) rumor token at a time.
+Be cautious when in the same location as a rumor token. The BEAST can
+arrive in that location, and will immediately trigger a hunt. If you are
+unprepared, this can be deadly
+
+II. TAKE ACTIONS
+Choose any two (2) actions from the following list. You may take the
+actions in any order, and may take the same action twice:
+� MOVE: Move your Inquisitor Token to an adjacent
+location connected by a white line.
+� INVESTIGATE: Remove one (1) Rumor Token from
+your location, and draw a card from the deck. Use the Codex
+Inquisitorum (p. 15) to add a detailed Unverified Rumor
+about the BEAST to your Notebook.
+� VERIFY: When you are at All-Hallows-The-Great (✝), roll
+1d6 for each Unverified Rumor in your Notebook. If the
+result is a 5 or 6, cross it out as a false rumor. Otherwise,
+mark it as a Learned Secret. Sketch pictures of Wards,
+Weapons, and the BEAST, based on what you have learned.
+� HUNT: If you are in the same location as the BEAST you
+may perform a hunt. See Hunting the Beast (p. 12).
+
+III. BEGIN THE NEXT DAY
+Does the BEAST still live? The next day begins! Repeat the steps starting
+with I. The Beast Approaches. The game continues until either you or
+the BEAST are dead.
+12
+HUNTING THE BEAST
+When you and the BEAST are in the same location:
+1. Gain one d6 for each Ward (♠) or Weapon (♣) Learned Secret (not
+rumor) in your notebook, up to a maximum of 5d6.
+2. If you have no dice, take 1 Wound and skip to Step 4.
+3. Roll the dice and use the single lowest value rolled: 1-2: You have
+slain the beast; 3-4: The beast survives, and you take 1 wound; 5-6: The
+beast is unharmed, and you take 2 wounds.
+4. For each new wound you receive, mark one Wound Box (|) on the
+map. When all three (3) wound boxes are full, you have died and the
+game ends in defeat.
+5. If you survive the Hunt, log the encounter in your notebook, and
+continue the game.
+Hunts can be triggered in one of two ways, either (1) by being in the same
+location as the BEAST during I. The Beast Approaches or (2) by taking
+the Hunt action during II. Take Actions.
+Unconfirmed rumors do not assist in the hunt. Be sure to verify them at
+All-Hallows before attempting a hunt.
+Harm to the BEAST is not cumulative. You must slay the beast based on
+your single lowest value rolled in Step 3 above.
