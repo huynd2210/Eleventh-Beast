@@ -111,18 +111,34 @@ export function GameSetup({ onStartGame, initialStep, forceProfileChange = false
   }, [inspectedProfile])
 
   useEffect(() => {
-    const state = loadProfileState()
-    setProfiles(state.profiles)
-    setActiveProfileId(state.activeProfileId)
-    if (state.activeProfileId) {
-      const active = state.profiles.find((profile) => profile.id === state.activeProfileId)
+    try {
+      const state = loadProfileState()
+      setProfiles(state.profiles)
+      setActiveProfileId(state.activeProfileId)
+      const active =
+        (state.activeProfileId && state.profiles.find((profile) => profile.id === state.activeProfileId)) ??
+        state.profiles[0] ??
+        null
+
       if (active) {
         setSelectedProfileId(active.id)
         setInquisitorName(active.inquisitor_name)
         setInspectedProfileId((prev) => prev ?? active.id)
+      } else {
+        setSelectedProfileId(null)
+        setInquisitorName("")
+        setInspectedProfileId(null)
       }
+    } catch (err) {
+      console.error("Failed to load stored profiles:", err)
+      setProfiles([])
+      setActiveProfileId(null)
+      setSelectedProfileId(null)
+      setInquisitorName("")
+      setInspectedProfileId(null)
+    } finally {
+      setProfileLoading(false)
     }
-    setProfileLoading(false)
   }, [])
 
   useEffect(() => {
