@@ -340,12 +340,6 @@ export function GameDashboard({ gameData, setGameData, gameLog = [], setGameLog 
               Overview
             </TabsTrigger>
             <TabsTrigger
-              value="map"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-amber-600 data-[state=active]:bg-transparent"
-            >
-              Map
-            </TabsTrigger>
-            <TabsTrigger
               value="stats"
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-amber-600 data-[state=active]:bg-transparent"
             >
@@ -353,59 +347,61 @@ export function GameDashboard({ gameData, setGameData, gameLog = [], setGameLog 
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" className="space-y-6 mt-6">
-            {gameData.game_phase === "beast-approaches" && (
-              <Card className="border-amber-900/50 bg-slate-900/50 p-6">
-                <h2 className="text-xl font-bold text-amber-100 mb-4">I. THE BEAST APPROACHES</h2>
-                <p className="text-amber-200/60 text-sm mb-4">
-                  The automatic phase has resolved. Check the game log for details. Moving to actions...
-                </p>
-              </Card>
-            )}
+          <TabsContent value="overview" className="mt-6 space-y-6">
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="space-y-6">
+                {gameData.game_phase === "beast-approaches" && (
+                  <Card className="border-amber-900/50 bg-slate-900/50 p-6">
+                    <h2 className="text-xl font-bold text-amber-100 mb-4">I. THE BEAST APPROACHES</h2>
+                    <p className="text-amber-200/60 text-sm mb-4">
+                      The automatic phase has resolved. Check the game log for details. Moving to actions...
+                    </p>
+                  </Card>
+                )}
 
-            {(gameData.game_phase === "take-actions" || gameData.game_phase === "hunt") && (
-              <ActionsPanel
-                gameData={gameData}
-                gamePhase={gameData.game_phase}
-                setGameData={setGameData}
-                addToLog={addToLog}
-                onActionsComplete={handleActionsComplete}
-                onHuntTriggered={handleHuntTriggered}
-                onCompleteAction={completeAction}
-                actionsRemaining={gameData.actions_remaining}
-              />
-            )}
+                {(gameData.game_phase === "take-actions" || gameData.game_phase === "hunt") && (
+                  <ActionsPanel
+                    gameData={gameData}
+                    gamePhase={gameData.game_phase}
+                    setGameData={setGameData}
+                    addToLog={addToLog}
+                    onActionsComplete={handleActionsComplete}
+                    onHuntTriggered={handleHuntTriggered}
+                    onCompleteAction={completeAction}
+                    actionsRemaining={gameData.actions_remaining}
+                  />
+                )}
 
-            {/* Stats Cards */}
-            <div className="grid md:grid-cols-1 gap-4">
-              <Card className="border-amber-900/50 bg-slate-900/50 p-4">
-                <p className="text-amber-200/60 text-xs uppercase mb-2">Beast Distance</p>
-                <div className="text-2xl font-bold text-amber-100">
-                  {gameData.beast_distance !== null ? gameData.beast_distance : "Unknown"}
+                <div className="grid md:grid-cols-1 gap-4">
+                  <Card className="border-amber-900/50 bg-slate-900/50 p-4">
+                    <p className="text-amber-200/60 text-xs uppercase mb-2">Beast Distance</p>
+                    <div className="text-2xl font-bold text-amber-100">
+                      {gameData.beast_distance !== null ? gameData.beast_distance : "Unknown"}
+                    </div>
+                    <p className="text-amber-200/60 text-xs mt-1">locations away</p>
+                  </Card>
                 </div>
-                <p className="text-amber-200/60 text-xs mt-1">locations away</p>
-              </Card>
+              </div>
+
+              <div className="space-y-6">
+                <LondonMap
+                  playerLocation={gameData.player_location}
+                  beastLocation={gameData.beast_location || null}
+                  rumorsTokens={gameData.rumors_tokens}
+                  onPlayerMove={movePlayer}
+                  canMove={gameData.game_phase === "take-actions"}
+                  actionsRemaining={gameData.actions_remaining}
+                  onActionUsed={completeAction}
+                  addToLog={addToLog}
+                  gameData={gameData}
+                  setGameData={setGameData}
+                  locations={locations}
+                  locationConnections={locationConnections}
+                />
+              </div>
             </div>
 
-            {/* Game Log */}
             {setGameLog && <GameLog logs={gameLog} />}
-          </TabsContent>
-
-          <TabsContent value="map" className="mt-6">
-            <LondonMap
-              playerLocation={gameData.player_location}
-              beastLocation={gameData.beast_location || null}
-              rumorsTokens={gameData.rumors_tokens}
-              onPlayerMove={movePlayer}
-              canMove={gameData.game_phase === "take-actions"}
-              actionsRemaining={gameData.actions_remaining}
-              onActionUsed={completeAction}
-              addToLog={addToLog}
-              gameData={gameData}
-              setGameData={setGameData}
-              locations={locations}
-              locationConnections={locationConnections}
-            />
           </TabsContent>
 
           <TabsContent value="stats" className="mt-6 space-y-6">
