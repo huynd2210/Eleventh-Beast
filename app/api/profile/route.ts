@@ -36,6 +36,7 @@ function normalizeRun(raw: any, fallbackResult: 'victory' | 'defeat'): RunRecord
           note: typeof fr?.note === 'string' ? fr.note : '',
         }))
       : [],
+    journal: typeof raw?.journal === 'string' ? raw.journal : '',
   }
 }
 
@@ -186,6 +187,7 @@ export async function PATCH(request: Request) {
     const body = await request.json().catch(() => ({}))
     const profileId = typeof body.profileId === 'string' ? body.profileId.trim() : ''
     const result = body.result === 'victory' || body.result === 'defeat' ? body.result : null
+    const runJournal = typeof body.journal === 'string' ? body.journal : undefined
 
     if (!profileId) {
       return NextResponse.json(
@@ -194,9 +196,9 @@ export async function PATCH(request: Request) {
       )
     }
 
-    if (!result) {
+    if (!result && runJournal === undefined) {
       return NextResponse.json(
-        { success: false, message: 'result must be either "victory" or "defeat"' },
+        { success: false, message: 'Either result or journal must be provided' },
         { status: 400 },
       )
     }
@@ -211,23 +213,34 @@ export async function PATCH(request: Request) {
       )
     }
 
-    profile.stats.games_played += 1
-    if (result === 'victory') {
-      profile.stats.victories += 1
-    } else {
-      profile.stats.defeats += 1
-    }
-    updateWinRate(profile)
-    profile.updated_at = new Date().toISOString()
+    if (result) {
+      profile.stats.games_played += 1
+      if (result === 'victory') {
+        profile.stats.victories += 1
+      } else {
+        profile.stats.defeats += 1
+      }
+      updateWinRate(profile)
+      profile.updated_at = new Date().toISOString()
 
-    if (!Array.isArray(profile.runs)) {
-      profile.runs = []
-    }
+      if (!Array.isArray(profile.runs)) {
+        profile.runs = []
+      }
 
-    const runPayload = body.run
-    if (runPayload && typeof runPayload === 'object') {
-      const runRecord: RunRecord = normalizeRun({ ...runPayload, result }, result)
-      profile.runs = [runRecord, ...profile.runs].slice(0, 50)
+      const runPayload = body.run
+      if (runPayload && typeof runPayload === 'object') {
+        const runRecord: RunRecord = normalizeRun({ ...runPayload, result, journal: runJournal }, result)
+        profile.runs = [runRecord, ...profile.runs].slice(0, 50)
+      }
+    } else if (runJournal !== undefined && Array.isArray(profile.runs)) {
+      const runId = typeof body.runId === 'string' ? body.runId.trim() : undefined
+      const targetRun = runId
+        ? profile.runs.find((run) => run.id === runId)
+        : profile.runs[0]
+      if (targetRun) {
+        targetRun.journal = runJournal
+        profile.updated_at = new Date().toISOString()
+      }
     }
 
     await writeProfileFile(data)

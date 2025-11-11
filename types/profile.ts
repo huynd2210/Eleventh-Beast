@@ -25,6 +25,7 @@ export interface RunRecord {
     id: string
     note: string
   }>
+  journal?: string
 }
 
 export interface InquisitorProfile {

@@ -5,14 +5,55 @@
       "id": "mhu6bnzl",
       "inquisitor_name": "John Beastslayer",
       "created_at": "2025-11-11T06:11:57.105Z",
-      "updated_at": "2025-11-11T10:57:54.483Z",
+      "updated_at": "2025-11-11T12:12:38.355Z",
       "stats": {
-        "games_played": 7,
-        "victories": 7,
+        "games_played": 8,
+        "victories": 8,
         "defeats": 0,
         "win_rate": 100
       },
       "runs": [
+        {
+          "id": "mhuj74tqxijz",
+          "timestamp": "2025-11-11T12:12:20.654Z",
+          "result": "victory",
+          "beast_name": "The Bone Fiend of Lambton",
+          "seed": 1762863125473,
+          "rounds": 8,
+          "days_elapsed": 7,
+          "rumors_total": 5,
+          "rumors_false": 1,
+          "rumors_verified": 4,
+          "verified_rumors": [
+            {
+              "id": "mhuj6voh7lj3yx",
+              "category": "ward",
+              "text": "Agnes Bentham (Mysterious note) reveals a mysterious note that reads: Ward against the Beast: Running water."
+            },
+            {
+              "id": "mhuj6xkhggu8rp",
+              "category": "weapon",
+              "text": "Thomas Clarke (Found an artifact) describes an artifact that implies: Weapon or tactic against the Beast: Piercing."
+            },
+            {
+              "id": "mhuj6yiz7uob7i",
+              "category": "weapon",
+              "text": "Catherine Huxham (Had a dream) describes a chilling dream: The Beast's behavior: Stealthy."
+            },
+            {
+              "id": "mhuj71x3xwdl3k",
+              "category": "ward",
+              "text": "Isolde Clarke (Mysterious note) reveals a mysterious note that reads: Ward against the Beast: Wolf bones."
+            }
+          ],
+          "false_rumors": [
+            {
+              "id": "mhuj6wmh3x0sre",
+              "note": "Isolde Aldworth (Had a dream) describes a chilling dream: The Beast's behavior: Nocturnal."
+            }
+          ],
+          "journal": "Absolutely cooked the Beast"
+        },
         {
           "id": "mhugjep4jy12",
           "timestamp": "2025-11-11T10:57:54.472Z",
@@ -51,7 +92,8 @@
               "id": "mhugjaq1nmwnhs",
               "note": "Agnes Clarke (Had a dream) describes a chilling dream: The Beast's behavior: Stalking."
             }
-          ]
+          ],
+          "journal": ""
         },
         {
           "id": "mhudzrndiwrv",
@@ -101,7 +143,8 @@
               "id": "mhudzfwprsmbx8",
               "note": "William Clarke (Witnessed it) claims to have witnessed the Beast and shares: Weapon or tactic against the Beast: Loud clanging."
             }
-          ]
+          ],
+          "journal": ""
         },
         {
           "id": "mhucivgvrzkv",
@@ -160,7 +203,8 @@
               "id": "mhucihncdjcijr",
               "note": "William Aldworth (Found an artifact) describes an artifact that implies: Ward against the Beast: String of acorns."
             }
-          ]
+          ],
+          "journal": ""
         },
         {
           "id": "mhubmkbffame",
@@ -197,7 +241,8 @@
               "id": "mhublncqpowsfk",
               "note": "Bartholomew Huxham (Heard rumor) whispers that: Weapon or tactic against the Beast: Loud clanging."
             }
-          ]
+          ],
+          "journal": ""
         },
         {
           "id": "mhu8dp73ntk0",
@@ -232,7 +277,8 @@
               "text": "The beast was summoned by dark rituals..."
             }
           ],
-          "false_rumors": []
+          "false_rumors": [],
+          "journal": ""
         },
         {
           "id": "mhu75euuwe0q",
@@ -277,7 +323,8 @@
               "text": "It fears running water and iron..."
             }
           ],
-          "false_rumors": []
+          "false_rumors": [],
+          "journal": ""
         }
       ]
     }

@@ -10,6 +10,7 @@ import { ActionsPanel } from "./actions-panel"
 import { gameAPI } from "@/lib/game-api"
 import type { InquisitorProfile, RunRecord } from "@/types/profile"
 import { toast } from "@/hooks/use-toast"
+import { Textarea } from "@/components/ui/textarea"
 
 interface GameLogEntry {
   id: string
@@ -97,8 +98,8 @@ interface GameData {
 interface GameDashboardProps {
   gameData: GameData
   setGameData: (data: any) => void
-  gameLog?: Array<{ id: string; message: string; timestamp: number }>
-  setGameLog?: (log: Array<{ id: string; message: string; timestamp: number }>) => void
+  gameLog?: GameLogEntry[]
+  setGameLog?: (log: GameLogEntry[]) => void
   onSessionExpired: () => void
   onPlayAgain: () => void
   onChangeProfile: () => void
@@ -125,6 +126,8 @@ export function GameDashboard({
   const [profileStats, setProfileStats] = useState(profile?.stats ?? null)
   const outcomeRecordedRef = useRef(false)
   const [showRules, setShowRules] = useState(false)
+  const [journalDrafts, setJournalDrafts] = useState<Record<string, string>>({})
+  const [journalSaving, setJournalSaving] = useState<Record<string, boolean>>({})
 
   const buildRunSummary = (result: "victory" | "defeat"): RunRecord => {
     const makeId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
@@ -152,11 +155,26 @@ export function GameDashboard({
         id: rumor.id ?? makeId(),
         note: rumor.note ?? "",
       })),
+      journal: "",
     }
   }
 
   useEffect(() => {
     setProfileStats(profile?.stats ?? null)
+  }, [profile])
+
+  useEffect(() => {
+    if (!profile) {
+      setJournalDrafts({})
+      setJournalSaving({})
+      return
+    }
+
+    const drafts: Record<string, string> = {}
+    profile.runs.forEach((run) => {
+      drafts[run.id] = run.journal ?? ''
+    })
+    setJournalDrafts(drafts)
   }, [profile])
 
   useDiceRollToasts(gameLog)
@@ -278,6 +296,43 @@ export function GameDashboard({
       handleApiError(err, "Failed to move player")
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleJournalChange = (runId: string, value: string) => {
+    setJournalDrafts((prev) => ({ ...prev, [runId]: value }))
+  }
+
+  const handleSaveJournal = async (runId: string) => {
+    if (!profile) return
+
+    const journal = journalDrafts[runId] ?? ''
+    setJournalSaving((prev) => ({ ...prev, [runId]: true }))
+
+    try {
+      const response = await fetch('/api/profile', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ profileId: profile.id, runId, journal }),
+      })
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null)
+        setError(data?.message || 'Failed to save journal entry.')
+        return
+      }
+
+      const data = await response.json()
+      if (data?.profile) {
+        onProfileUpdated(data.profile)
+        setProfileStats(data.profile.stats)
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save journal entry.')
+    } finally {
+      setJournalSaving((prev) => ({ ...prev, [runId]: false }))
     }
   }
 
@@ -761,6 +816,26 @@ export function GameDashboard({
                                     ))}
                                   </ul>
                                 )}
+                              </div>
+                            </div>
+
+                            <div className="mt-4 space-y-2">
+                              <p className="text-xs uppercase tracking-widest text-amber-200/50">Journal Entry</p>
+                              <Textarea
+                                value={journalDrafts[run.id] ?? ''}
+                                onChange={(event) => handleJournalChange(run.id, event.target.value)}
+                                placeholder="Record visions, clues, and reflections from this hunt..."
+                                rows={4}
+                              />
+                              <div className="flex justify-end">
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleSaveJournal(run.id)}
+                                  disabled={journalSaving[run.id] || (journalDrafts[run.id] ?? '') === (run.journal ?? '')}
+                                  className="bg-amber-900 hover:bg-amber-800 text-amber-50"
+                                >
+                                  {journalSaving[run.id] ? "Saving..." : "Save Journal"}
+                                </Button>
                               </div>
                             </div>
                           </div>

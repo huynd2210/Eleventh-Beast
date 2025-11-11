@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
+import { Textarea } from "@/components/ui/textarea"
 import { gameAPI } from "@/lib/game-api"
 import type { InquisitorProfile } from "@/types/profile"
 
@@ -59,6 +60,8 @@ export function GameSetup({ onStartGame, initialStep, forceProfileChange = false
   const [seedValue, setSeedValue] = useState("")
   const [profileLoading, setProfileLoading] = useState(true)
   const [isChangingProfile, setIsChangingProfile] = useState(forceProfileChange)
+  const [journalDrafts, setJournalDrafts] = useState<Record<string, string>>({})
+  const [journalSaving, setJournalSaving] = useState<Record<string, boolean>>({})
 
   const initialisedRef = useRef(false)
 
@@ -93,6 +96,20 @@ export function GameSetup({ onStartGame, initialStep, forceProfileChange = false
       return profiles[0].id
     })
   }, [profiles])
+
+  useEffect(() => {
+    if (!inspectedProfile) {
+      setJournalDrafts({})
+      setJournalSaving({})
+      return
+    }
+
+    const drafts: Record<string, string> = {}
+    inspectedProfile.runs?.forEach((run) => {
+      drafts[run.id] = run.journal ?? ''
+    })
+    setJournalDrafts(drafts)
+  }, [inspectedProfile])
 
   useEffect(() => {
     const loadProfiles = async () => {
@@ -296,6 +313,42 @@ export function GameSetup({ onStartGame, initialStep, forceProfileChange = false
       console.error("Failed to delete profile", err)
       setError("Failed to delete profile")
       return false
+    }
+  }
+
+  const handleRunJournalChange = (runId: string, value: string) => {
+    setJournalDrafts((prev) => ({ ...prev, [runId]: value }))
+  }
+
+  const handleRunJournalSave = async (runId: string) => {
+    if (!inspectedProfile) {
+      return
+    }
+
+    const journal = journalDrafts[runId] ?? ''
+    setJournalSaving((prev) => ({ ...prev, [runId]: true }))
+
+    try {
+      const response = await fetch("/api/profile", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ profileId: inspectedProfile.id, runId, journal }),
+      })
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null)
+        setError(data?.message || "Failed to save journal entry.")
+        return
+      }
+
+      const data = await response.json()
+      updateProfilesState(data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save journal entry.")
+    } finally {
+      setJournalSaving((prev) => ({ ...prev, [runId]: false }))
     }
   }
 
@@ -708,6 +761,26 @@ export function GameSetup({ onStartGame, initialStep, forceProfileChange = false
                                           ))}
                                         </ul>
                                       )}
+                                    </div>
+                                  </div>
+
+                                  <div className="mt-3 space-y-2">
+                                    <p className="text-[10px] uppercase tracking-widest text-amber-200/50">Journal Entry</p>
+                                    <Textarea
+                                      value={journalDrafts[run.id] ?? ''}
+                                      onChange={(event) => handleRunJournalChange(run.id, event.target.value)}
+                                      placeholder="Record your notes, omens, and reflections from this hunt..."
+                                      rows={4}
+                                    />
+                                    <div className="flex justify-end">
+                                      <Button
+                                        size="sm"
+                                        onClick={() => handleRunJournalSave(run.id)}
+                                        disabled={journalSaving[run.id] || (journalDrafts[run.id] ?? '') === (run.journal ?? '')}
+                                        className="bg-amber-900 hover:bg-amber-800 text-amber-50"
+                                      >
+                                        {journalSaving[run.id] ? "Saving..." : "Save Journal"}
+                                      </Button>
                                     </div>
                                   </div>
                                 </div>
