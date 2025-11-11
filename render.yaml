@@ -3,7 +3,7 @@ services:
     name: eleventh-beast-web
     env: node
     buildCommand: npm install --legacy-peer-deps && npm run build
-    startCommand: npm run start
+    startCommand: npm run start -- --hostname 0.0.0.0 --port $PORT
     autoDeploy: true
     plan: starter
     envVars:
@@ -13,8 +13,3 @@ services:
         value: "1"
       - key: NPM_CONFIG_LEGACY_PEER_DEPS
         value: "true"
-    disk:
-      name: profile-data
-      mountPath: /opt/render/project/src/data
-      sizeGB: 1
-
