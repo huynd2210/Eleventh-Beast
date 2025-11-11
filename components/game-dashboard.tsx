@@ -9,6 +9,7 @@ import { LondonMap, LOCATIONS as DEFAULT_LOCATIONS, LOCATION_CONNECTIONS as DEFA
 import { ActionsPanel } from "./actions-panel"
 import { gameAPI } from "@/lib/game-api"
 import type { InquisitorProfile, RunRecord } from "@/types/profile"
+import { toast } from "@/hooks/use-toast"
 
 interface GameData {
   beast_name: string
@@ -81,6 +82,7 @@ export function GameDashboard({
   const [locationConnections, setLocationConnections] = useState<Record<string, string[]>>(DEFAULT_LOCATION_CONNECTIONS)
   const [profileStats, setProfileStats] = useState(profile?.stats ?? null)
   const outcomeRecordedRef = useRef(false)
+  const previousLogIdsRef = useRef<string[]>([])
   const [showRules, setShowRules] = useState(false)
 
   const buildRunSummary = (result: "victory" | "defeat"): RunRecord => {
@@ -115,6 +117,35 @@ export function GameDashboard({
   useEffect(() => {
     setProfileStats(profile?.stats ?? null)
   }, [profile])
+
+  useEffect(() => {
+    if (!gameLog || gameLog.length === 0) {
+      previousLogIdsRef.current = []
+      return
+    }
+
+    if (previousLogIdsRef.current.length === 0) {
+      previousLogIdsRef.current = gameLog.map((entry) => entry.id)
+      return
+    }
+
+    const prevIds = new Set(previousLogIdsRef.current)
+    const newEntries = gameLog.filter((entry) => !prevIds.has(entry.id))
+
+    newEntries.forEach((entry) => {
+      const match = entry.message.match(/Roll 1d(\d+)(?:\s*\((.*?)\))?\s*-\s*Result:\s*(\d+)/i)
+      if (match) {
+        const [, sides, contextRaw, result] = match
+        const context = contextRaw?.replace(/"/g, "").trim()
+        toast({
+          title: context && context.length > 0 ? context : "Dice Roll",
+          description: `d${sides} → ${result}`,
+        })
+      }
+    })
+
+    previousLogIdsRef.current = gameLog.map((entry) => entry.id)
+  }, [gameLog])
 
   const currentProfileStats = profileStats ?? profile?.stats ?? null
   const unverifiedRumorsCount = (gameData.investigation?.rumors ?? []).filter((rumor) => !rumor.verified && !rumor.is_false).length

@@ -236,7 +236,7 @@ class GameEngine:
         existing_notes = {rumor["note"] for rumor in self.game_data.investigation["rumors"]}
         attempts = 0
         note = ""
-        category = "appearance"
+        category = "ward"
         suit_keys = list(SUIT_DETAILS.keys())
 
         while attempts < 10:

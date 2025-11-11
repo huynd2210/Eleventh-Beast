@@ -281,7 +281,7 @@ export class GameEngine {
     const suitKeys: SuitKey[] = ['hearts', 'diamonds', 'spades', 'clubs']
     let attempts = 0
     let note = ''
-    let category: RumorCategory = 'appearance'
+    let category: RumorCategory = 'ward'
 
     while (attempts < 10) {
       const firstName = this.randomChoice(FIRST_NAMES)

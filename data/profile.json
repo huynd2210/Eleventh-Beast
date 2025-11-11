@@ -5,14 +5,64 @@
       "id": "mhu6bnzl",
       "inquisitor_name": "John Beastslayer",
       "created_at": "2025-11-11T06:11:57.105Z",
-      "updated_at": "2025-11-11T09:05:31.093Z",
+      "updated_at": "2025-11-11T09:46:38.916Z",
       "stats": {
-        "games_played": 5,
-        "victories": 5,
+        "games_played": 6,
+        "victories": 6,
         "defeats": 0,
         "win_rate": 100
       },
       "runs": [
+        {
+          "id": "mhudzrndiwrv",
+          "timestamp": "2025-11-11T09:46:38.905Z",
+          "result": "victory",
+          "beast_name": "The Black Worm of Lambton",
+          "seed": 1762854350113,
+          "rounds": 13,
+          "days_elapsed": 12,
+          "rumors_total": 7,
+          "rumors_false": 1,
+          "rumors_verified": 6,
+          "verified_rumors": [
+            {
+              "id": "mhudytphlfeiho",
+              "category": "ward",
+              "text": "Catherine Aldworth (Heard rumor) whispers that: Ward against the Beast: Chalked circle."
+            },
+            {
+              "id": "mhudyx2j80mgh8",
+              "category": "ward",
+              "text": "Thomas Clarke (Had a dream) describes a chilling dream: The Beast's appearance: Powerful, barbed tail."
+            },
+            {
+              "id": "mhudyyfupdpg8p",
+              "category": "ward",
+              "text": "Thomas Gibbes (Read in a book) recites from an old tome: Ward against the Beast: Chalked circle."
+            },
+            {
+              "id": "mhudz0v0034koq",
+              "category": "ward",
+              "text": "Thomas Bentham (Heard rumor) whispers that: The Beast's appearance: Tendrils that whip and lash."
+            },
+            {
+              "id": "mhudzisi731wb4",
+              "category": "weapon",
+              "text": "Isolde Clarke (Witnessed it) claims to have witnessed the Beast and shares: The Beast's behavior: Erratic."
+            },
+            {
+              "id": "mhudzjvpsxesqj",
+              "category": "ward",
+              "text": "Thomas Aldworth (Found an artifact) describes an artifact that implies: Ward against the Beast: Golden amulet."
+            }
+          ],
+          "false_rumors": [
+            {
+              "id": "mhudzfwprsmbx8",
+              "note": "William Clarke (Witnessed it) claims to have witnessed the Beast and shares: Weapon or tactic against the Beast: Loud clanging."
+            }
+          ]
+        },
         {
           "id": "mhucivgvrzkv",
           "timestamp": "2025-11-11T09:05:31.087Z",
