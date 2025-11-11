@@ -5,14 +5,54 @@
       "id": "mhu6bnzl",
       "inquisitor_name": "John Beastslayer",
       "created_at": "2025-11-11T06:11:57.105Z",
-      "updated_at": "2025-11-11T09:46:38.916Z",
+      "updated_at": "2025-11-11T10:57:54.483Z",
       "stats": {
-        "games_played": 6,
-        "victories": 6,
+        "games_played": 7,
+        "victories": 7,
         "defeats": 0,
         "win_rate": 100
       },
       "runs": [
+        {
+          "id": "mhugjep4jy12",
+          "timestamp": "2025-11-11T10:57:54.472Z",
+          "result": "victory",
+          "beast_name": "The Black Wolf of Sockburn",
+          "seed": 1762858647779,
+          "rounds": 11,
+          "days_elapsed": 10,
+          "rumors_total": 5,
+          "rumors_false": 1,
+          "rumors_verified": 4,
+          "verified_rumors": [
+            {
+              "id": "mhugizs7cr9efl",
+              "category": "ward",
+              "text": "Isolde Gibbes (Had a dream) describes a chilling dream: Ward against the Beast: Criminal's hand."
+            },
+            {
+              "id": "mhugj1e735t21g",
+              "category": "weapon",
+              "text": "Bartholomew Huxham (Heard rumor) whispers that: Weapon or tactic against the Beast: Rowan tree wood."
+            },
+            {
+              "id": "mhugj28rg77w7e",
+              "category": "ward",
+              "text": "Catherine Bentham (Had a dream) describes a chilling dream: The Beast's appearance: Head like a goat."
+            },
+            {
+              "id": "mhugj7e8eed0nv",
+              "category": "weapon",
+              "text": "William Huxham (Read in a book) recites from an old tome: The Beast's behavior: Shapeshifting."
+            }
+          ],
+          "false_rumors": [
+            {
+              "id": "mhugjaq1nmwnhs",
+              "note": "Agnes Clarke (Had a dream) describes a chilling dream: The Beast's behavior: Stalking."
+            }
+          ]
+        },
         {
           "id": "mhudzrndiwrv",
           "timestamp": "2025-11-11T09:46:38.905Z",
